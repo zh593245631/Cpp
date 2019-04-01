@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include<iostream>
 #include<string>
 #include<vector>
@@ -133,51 +134,180 @@ void TestPushBack2()
 //string类非成员函数
 //******************************
 //OJ反转字符串
-class Solution{
+//class Solution{
+//public:
+//	string reverseString(string s){
+//		if (s.empty())
+//			return s;
+//		size_t left = 0;
+//		size_t right = s.size() - 1;
+//
+//		while (left < right)
+//		{
+//			swap(s[left], s[right]);
+//			left++;
+//			right--;
+//		}
+//		return s;
+//	}
+//};
+//class Solution2 {
+//public:
+//	void reverseString(vector<char> s) {
+//		if (s.empty())
+//			return;
+//		size_t left = 0;
+//		size_t right = s.size()-1;
+//
+//		while (left < right)
+//		{
+//			swap(s[left], s[right]);
+//			left++;
+//			right--;
+//		}
+//	}
+//};
+//int main()
+//{
+//	//TestString1();
+//	//TestString2();
+//	//TestString3();
+//	//TestString4();
+//	//TestPushBack();
+//	//TestPushBack2();
+//	//string str("aabbcc");
+//	//Solution s;
+//	//cout << str << endl;
+//	//str = s.reverseString(str);
+//	//cout << str << endl;
+//	return 0;
+//}
+//经典String问题
+#include<assert.h>
+//class String
+//{
+//public:
+//	String(const char* str = "")
+//	{
+//		if (str == nullptr)
+//		{
+//			assert(false);
+//			return;
+//
+//		}
+//		_str = new char[strlen(str) + 1];
+//		strcpy(_str, str);
+//	}
+//
+//	~String()
+//	{
+//		if (_str)
+//		{
+//			delete[] _str;
+//			_str = nullptr;
+//		}
+//	}
+//
+//private:
+//	char* _str;
+//};
+//int main()
+//{
+//	String s1("hello world!!!");
+//	String s2(s1);
+//	return 0;
+//}
+//传统版写法String
+//class String
+//{
+//public:
+//	String(const char* str = "")
+//	{
+//		if (nullptr == str)
+//		{
+//			assert(false);
+//			return;
+//		}
+//		_str = new char[strlen(str) + 1];
+//		strcpy(_str, str);
+//	}
+//	String(const String& str)
+//		:_str(new char[strlen(str._str) + 1])
+//	{
+//		strcpy(_str, str._str);
+//
+//	}
+//	String& operator=(const String& s)
+//	{
+//		if (this != &s)
+//		{
+//			char* pStr = new char[strlen(s._str) + 1];
+//			strcpy(pStr, s._str);
+//			delete[] _str;
+//			_str = pStr;
+//		}
+//		return *this;
+//	}
+//	~String()
+//	{
+//		if (_str)
+//		{
+//			delete[] _str;
+//			_str = nullptr;
+//		}
+//	}
+//private:
+//	char* _str;
+//};
+//int main()
+//{
+//	String s1("hello world!!!");
+//	String s2(s1);
+//	String s4 = s1;
+//	{
+//		String s3("hehe");
+//	}
+//
+//	return 0;
+//}
+//现代写法String
+class String
+{
 public:
-	string reverseString(string s){
-		if (s.empty())
-			return s;
-		size_t left = 0;
-		size_t right = s.size() - 1;
+	String(const char* str = "")
+	{
+		if (nullptr == str)
+			cout << 111 << endl;
 
-		while (left < right)
-		{
-			swap(s[left], s[right]);
-			left++;
-			right--;
-		}
-		return s;
+		_str = new char[strlen(str) + 1];
+		strcpy(_str, str);
 	}
-};
-class Solution2 {
-public:
-	void reverseString(vector<char> s) {
-		if (s.empty())
-			return;
-		size_t left = 0;
-		size_t right = s.size()-1;
-
-		while (left < right)
+	String(const String& s)
+		:_str(nullptr)
+	{
+		String strTmp(s._str);
+		swap(_str, strTmp._str);
+	}
+	String& operator=(String s)
+	{
+		swap(_str, s._str);
+		return *this;
+	}
+	~String()
+	{
+		if (_str)
 		{
-			swap(s[left], s[right]);
-			left++;
-			right--;
+			delete[] _str;
+			_str = nullptr;
 		}
 	}
+private:
+	char* _str;
 };
 int main()
 {
-	//TestString1();
-	//TestString2();
-	//TestString3();
-	//TestString4();
-	//TestPushBack();
-	//TestPushBack2();
-	//string str("aabbcc");
-	//Solution s;
-	//cout << str << endl;
-	//str = s.reverseString(str);
-	//cout << str << endl;
+	String s1("hello world");
+	String s2(s1);
+	String s3 = s1;
 	return 0;
 }
