@@ -151,7 +151,94 @@ namespace zzh
 			assert(index < _size);
 			return _str[index];
 		}
-		/*String& operator<<()*/
+		bool operator<(const String& s)
+		{
+			return strcmp(_str, s._str)<0;
+		}
+		bool operator<=(const String& s)
+		{
+			return strcmp(_str, s._str)<=0;
+		}
+		bool operator>(const String& s)
+		{
+			return strcmp(_str, s._str) > 0;
+		}
+		bool operator>=(const String& s)
+		{
+			return strcmp(_str, s._str) >= 0;
+		}
+		bool operator==(const String& s)
+		{
+			return strcmp(_str, s._str) == 0;
+		}
+		bool operator!=(const String& s)
+		{
+			return !strcmp(_str, s._str);
+		}
+		//返回c在string中第一次出现的位置
+		int Find(char c, int pos = -1)const
+		{
+			for (size_t i = 0; i < _size; i++)
+			{
+				if (_str[i] == c)
+				{
+					pos = i;
+					break;
+				}
+			}
+
+			return pos;
+		}
+		// 返回子串s在string中第一次出现的位置
+		int Find(const char*c, int pos = -1) const
+		{
+			for (size_t i = 0; i < _size; i++)
+			{
+				size_t tmp = i;
+				size_t j = 0;
+
+				if (_str[i] == c[j])
+				{
+					for (j = 0; j < strlen(c);j++)
+					{
+						if (_str[i] != c[j]||i==_size)break;
+						i++;
+					}
+					i = tmp;
+					if (j == strlen(c))
+					{
+						pos = i;
+						break;
+					}
+				}
+			}
+			return pos;
+		}
+		// 截取string从pos位置开始的n个字符
+		String SubStr(size_t pos, size_t n);
+
+		// 在pos位置上插入字符c/字符串str，并返回该字符的位置
+		void Insert(size_t pos, char c)
+		{
+			if (_capacity == _size)
+			{
+				Reserve(_capacity * 2);
+			}
+
+			for (size_t i = _size; i > pos; i--)
+			{
+				_str[i] = _str[i - 1];
+			}
+			_str[pos] = c;
+			_size++;
+			_str[_size] = '\0';
+		}
+		void Insert(size_t pos, const char* str)		{			for (size_t i = 0; i < strlen(str); i++)
+			{
+				Insert(pos + i, str[i]);
+			}
+		}
+
 
 	private:
 		friend ostream& operator<<(ostream& _cout, const zzh::String& s);
@@ -165,7 +252,8 @@ ostream& zzh::operator<<(ostream& _cout, const zzh::String& s)
 {
 	cout << s._str;
 	return _cout;
-}
+}
+
 void test1()
 {
 	String s1("hello");
@@ -219,6 +307,23 @@ void test2()
 
 
 }
+void test3()
+{
+	String s1("aabb");
+	String s2("ccbb");
+
+	cout << (s1 < s2) << endl;
+
+	cout << s1.Size() << endl;
+	cout << s1.Find('f') << endl;
+	cout << s1.Find("abc") << endl;
+	s1.Insert(1,'c');
+	s1.Insert(1, "qwer");
+
+
+	cout << s1 << endl;
+
+}
 int main()
 {
 	String s1("hello world");
@@ -226,7 +331,7 @@ int main()
 	String s3 = s2;
 
 	//test1();
-	test2();
-
+	//test2();
+	test3();
 	return 0;
 }
