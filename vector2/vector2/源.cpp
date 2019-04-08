@@ -104,7 +104,7 @@ namespace zzh
 			}
 
 			Iterator it = _finish;
-			Iterator _finish = _start + n;
+			_finish = _start + n;
 			while (it != _finish)
 			{
 				*it = value;
@@ -247,6 +247,7 @@ void Test2()
 	v2.Resize(5);
 	cout << v2.Size()<< endl;
 	v2.Resize(8, 100);
+	cout << v2.Size() << endl;
 	for (size_t i = 0; i < v2.Size(); i++)
 		cout << v2[i] << " ";
 	cout << endl;
