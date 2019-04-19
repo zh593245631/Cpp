@@ -64,29 +64,32 @@ using namespace std;
 //int main()
 //{
 //	int a = 10;
-//	int* aa = new int();
-//	*aa = a;
-//	
-//	int* p ;
-//	p = aa;
 //
-//	delete p;
-//	delete aa;
+//	int* aa = &a;
+//	int* p = aa;
+//	
+//	cout <<"aa: " <<*aa << endl;
+//	cout << "p: " << *p << endl;
+//
+//	(*aa)++;
+//	cout << "aa: " << *aa << endl;
+//	cout << "p: " << *p << endl;
 //
 //	return 0;
 //}
 int main()
 {
 	int a = 10;
-	int* aa = new int();
-	*aa = a;
-
+	int* aa = &a;
 
 	int* p = new int();
 	*p = *aa;
 
-	delete aa;
-	delete p;
-
+	cout <<"aa: " <<*aa << endl;
+	cout << "p: " << *p << endl;
+	
+	(*aa)++;
+	cout << "aa: " << *aa << endl;
+	cout << "p: " << *p << endl;
 	return 0;
 }
