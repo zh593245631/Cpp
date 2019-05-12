@@ -430,78 +430,78 @@ using namespace std;
 // 模拟实现一份简答的SharedPtr,了解原理
 
 
-template<class T>
-class SharedPtr
-{
-public:
-	SharedPtr(T* ptr = nullptr)
-		:_count(new int(1))
-		,_ptr(ptr)
-		,_pMutex(new mutex)
-	{}
-	~SharedPtr()
-	{
-		Release();
-	}
-
-	SharedPtr(const SharedPtr<T>& sp)
-		:_count(sp._count)
-		, _ptr(sp._ptr)
-		, _pMutex(sp._pMutex)
-	{
-		AddRefCount();
-	}
-
-	SharedPtr<T>& operator=(const SharedPtr<T>& sp)
-	{
-		if (_ptr != sp._ptr)
-		{
-			//释放管理的旧资源
-			Release();
-
-			//共享管理新资源
-			_ptr = sp._ptr;
-			_count = sp._count;
-			_pMutex = sp._pMutex;
-
-			AddRefCount();
-		}
-
-		return *this;
-	}
-
-	T& operator*() { return *_ptr; }
-	T* operator->() { return _ptr; }
-	int use_count() { return *_count; }
-	T* get() { return _ptr; }
-	void AddRefCount()
-	{
-		_pMutex->lock();
-		++(*_count);
-		_pMutex->unlock();
-	}
-
-	void Release()
-	{
-		bool deleteflag = false;
-
-		_pMutex->lock();
-		if (--(*_count) == 0)
-		{
-			delete _ptr;
-			delete _count;
-			deleteflag = true;
-		}
-		_pMutex->unlock();
-
-		if (deleteflag)
-			delete _pMutex;
-	}
-private:
-	int* _count;
-	T* _ptr;
-	mutex* _pMutex; //互斥锁
-};
+//template<class T>
+//class SharedPtr
+//{
+//public:
+//	SharedPtr(T* ptr = nullptr)
+//		:_count(new int(1))
+//		,_ptr(ptr)
+//		,_pMutex(new mutex)
+//	{}
+//	~SharedPtr()
+//	{
+//		Release();
+//	}
+//
+//	SharedPtr(const SharedPtr<T>& sp)
+//		:_count(sp._count)
+//		, _ptr(sp._ptr)
+//		, _pMutex(sp._pMutex)
+//	{
+//		AddRefCount();
+//	}
+//
+//	SharedPtr<T>& operator=(const SharedPtr<T>& sp)
+//	{
+//		if (_ptr != sp._ptr)
+//		{
+//			//释放管理的旧资源
+//			Release();
+//
+//			//共享管理新资源
+//			_ptr = sp._ptr;
+//			_count = sp._count;
+//			_pMutex = sp._pMutex;
+//
+//			AddRefCount();
+//		}
+//
+//		return *this;
+//	}
+//
+//	T& operator*() { return *_ptr; }
+//	T* operator->() { return _ptr; }
+//	int use_count() { return *_count; }
+//	T* get() { return _ptr; }
+//	void AddRefCount()
+//	{
+//		_pMutex->lock();
+//		++(*_count);
+//		_pMutex->unlock();
+//	}
+//
+//	void Release()
+//	{
+//		bool deleteflag = false;
+//
+//		_pMutex->lock();
+//		if (--(*_count) == 0)
+//		{
+//			delete _ptr;
+//			delete _count;
+//			deleteflag = true;
+//		}
+//		_pMutex->unlock();
+//
+//		if (deleteflag)
+//			delete _pMutex;
+//	}
+//private:
+//	int* _count;
+//	T* _ptr;
+//	mutex* _pMutex; //互斥锁
+//};
 
 //int main()
 //{
@@ -530,40 +530,154 @@ private:
 //	return 0;
 //}
 
-class Date
+//class Date
+//{
+//public:
+//	int _year;
+//	int _month;
+//	int _day;
+//};
+//void SharePtrFunc(SharedPtr<Date> sp, size_t n)
+//{
+//	cout << sp.get() << endl;
+//	for (size_t i = 0; i < n; ++i)
+//	{
+//		// 这里智能指针拷贝会++计数，智能指针析构会--计数，这里是线程安全的。
+//		SharedPtr<Date> copy(sp);
+//		// 这里智能指针访问管理的资源，不是线程安全的。所以我们看看这些值两个线程++了2n次，但是最
+//		//终看到的结果，并一定是加了2n
+//			copy->_year++;
+//		copy->_month++;
+//		copy->_day++;
+//	}
+//}
+//int main()
+//{
+//	SharedPtr<Date> p(new Date);
+//	//SharedPtr<Date>& a = p;
+//	cout << p.get() << endl;
+//
+//	const size_t n = 100;
+//	thread t1(SharePtrFunc, p, n);
+//	thread t2(SharePtrFunc, p, n);
+//	t1.join();
+//	t2.join();
+//	cout << p->_year << endl;
+//	cout << p->_month << endl;
+//	cout << p->_day << endl;
+//	return 0;
+//}
+//////////////////////////////////////////
+//shared_ptr的循环引用
+//struct ListNode
+//{
+//	int _data;
+//	shared_ptr<ListNode> _next;
+//	shared_ptr<ListNode> _prev;
+//
+//	~ListNode() { cout << "~LisNode()" << endl; }
+//
+//};
+//
+//int main()
+//{
+//	shared_ptr<ListNode> a(new ListNode);
+//	cout << a.use_count() << endl;
+//	shared_ptr<ListNode> b(new ListNode);
+//	a->_next = b;
+//	cout << a.use_count() << endl;
+//	cout << b.use_count() << endl;
+//	b->_prev = a;
+//	cout << a.use_count() << endl;
+//	cout << b.use_count() << endl;
+//	return 0;
+//}
+
+//struct ListNode
+//{
+//	int _data;
+//	weak_ptr<ListNode> _next;
+//	weak_ptr<ListNode> _prev;
+//	
+//	~ListNode() { cout << "~LisNode()" << endl; }
+//	
+//};
+//
+//// 仿函数的删除器
+//template<class T>
+//struct FreeFunc {
+//	void operator()(T* ptr)
+//	{
+//		cout << "free:" << ptr << endl;
+//		free(ptr);
+//	}
+//};
+//template<class T>
+//struct DeleteArrayFunc {
+//	void operator()(T* ptr)
+//	{
+//		cout << "delete[]" << ptr << endl;
+//		delete[] ptr;
+//	}
+//};//
+//int main()
+//{
+//	//shared_ptr<ListNode> a(new ListNode);
+//	//cout << a.use_count() << endl;
+//	//shared_ptr<ListNode> b(new ListNode);
+//	//a->_next = b;
+//	//cout << a.use_count() << endl;
+//	//cout << b.use_count() << endl;
+//	//b->_prev = a;
+//	//cout << a.use_count() << endl;
+//	//cout << b.use_count() << endl;
+//
+//	FreeFunc<ListNode> arr ;
+//	shared_ptr<ListNode> a((ListNode*)malloc(sizeof(4)),arr);
+//
+//	return 0;
+//}
+#include <thread>
+#include <mutex>
+// C++11的库中也有一个lock_guard，下面的LockGuard造轮子其实就是为了学习他的原理
+template<class Mutex>
+class LockGuard
 {
 public:
-	int _year;
-	int _month;
-	int _day;
-};
-void SharePtrFunc(SharedPtr<Date> sp, size_t n)
-{
-	cout << sp.get() << endl;
-	for (size_t i = 0; i < n; ++i)
+	LockGuard(Mutex& mtx)
+		:_mutex(mtx)
 	{
-		// 这里智能指针拷贝会++计数，智能指针析构会--计数，这里是线程安全的。
-		SharedPtr<Date> copy(sp);
-		// 这里智能指针访问管理的资源，不是线程安全的。所以我们看看这些值两个线程++了2n次，但是最
-		//终看到的结果，并一定是加了2n
-			copy->_year++;
-		copy->_month++;
-		copy->_day++;
+		_mutex.lock();
 	}
-}
-int main()
+	~LockGuard()
+	{
+		_mutex.unlock();
+	}
+	
+private:
+	LockGuard(const LockGuard<Mutex>&) = delete;
+	// 注意这里必须使用引用，否则锁的就不是一个互斥量对象
+	Mutex& _mutex;
+};
+mutex mtx;
+int n = 0;
+void Func()
 {
-	SharedPtr<Date> p(new Date);
-
-	cout << p.get() << endl;
-
-	const size_t n = 100;
-	thread t1(SharePtrFunc, p, n);
-	thread t2(SharePtrFunc, p, n);
+	for (size_t i = 0; i < 1000000; ++i)
+	{
+		LockGuard<mutex> lock(mtx);
+		++n;
+	}
+}int main()
+{
+	int begin = clock();
+	thread t1(Func);
+	thread t2(Func);
 	t1.join();
 	t2.join();
-	cout << p->_year << endl;
-	cout << p->_month << endl;
-	cout << p->_day << endl;
+	int end = clock();
+	cout << n << endl;
+	cout << "cost time:" << end - begin << endl;
+
 	return 0;
-}
+}
