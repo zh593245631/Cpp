@@ -1,7 +1,7 @@
 #include<iostream>
 #include<fstream>
 #include<Windows.h>
-
+#include <string>
 using namespace std;
 //沙雕版备忘录
 //1.创建一个文件来存储备忘录信息
@@ -64,7 +64,8 @@ void _write(BWL& bwl)
 	system("cls");
 	bwl.read();
 	string write;
-	cin >> write;
+	//cin >> write;
+	getline(cin,write);
 	bwl.write(write);
 }
 int main()
