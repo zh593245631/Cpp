@@ -136,13 +136,42 @@ public:
 
 	}
 private:
-	//void RotateL(pNode root)
-	//{
-	//	pNode g = root->_pParent;
-	//	if (g->_pLeft == root) {
+	//×óÐý
+	void RotateL(pNode parent)
+	{
+		pNode subR = parent->_pRight;
+		pNode subRL = subR->_pLeft;
 
-	//	}
-	//}
+		subR->_pLeft = parent;
+		parent->_pRight = subRL
+
+		if (subRL)
+			subRL->_pParent = parent;
+
+		if (parent != _Header->parent)
+		{
+			pNode gparent = parent->_pParent;
+
+			if (gparent->_pRight == parent)
+				gparent->_pRight = subR;
+			else
+				gparent->_pLeft = subR;
+
+			subR->_pParent = gparent;
+
+		}
+		else
+		{
+			subR->_pParent = _Header;
+			_Header->_pParent = subR;
+		}
+		parent->_pParent = subR;
+	}
+	//ÓÒÐý
+	void RotateR(pNode parent)
+	{
+		//todo
+	}
 private:
 	pNode _Header;
 };
