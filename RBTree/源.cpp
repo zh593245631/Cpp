@@ -133,10 +133,80 @@ public:
 			}
 		}
 		_Header->_pParent->_color = Black;
-
+		pNode curL = _Header->_pParent;
+		while (curL->_pLeft)
+		{
+			curL = curL->_pLeft;
+		}
+		_Header->_pLeft = curL;
+		
+		pNode curR = _Header->_pParent;
+		while (curR->_pRight)
+		{
+			curR = curR->_pRight;
+		}
+		_Header->_pRight = curR;
 		return true;
 
 	}
+	//打印
+	void print(const RBTree<K,V>& tree)
+	{
+		Inoder(tree._Header->_pParent);
+	}
+	//红黑树的验证
+	bool IsValidRBTree()
+	{
+		pNode pRoot = _Header->_pParent;
+
+		// 空树也是红黑树
+		if (nullptr == pRoot)
+			return true;
+		// 检测根节点是否满足情况
+		if (Black != pRoot->_color)
+		{
+			cout << "违反红黑树性质二：根节点必须为黑色" << endl;
+			return false;
+		}
+		// 获取任意一条路径中黑色节点的个数
+		size_t blackCount = 0;
+		pNode pCur = pRoot;
+		while (pCur)
+		{
+			if (Black == pCur->_color)
+				blackCount++;
+			pCur = pCur->_pLeft;
+		}
+		// 检测是否满足红黑树的性质，k用来记录路径中黑色节点的个数
+		size_t k = 0;
+		return _IsValidRBTree(pRoot, k, blackCount);
+	}
+	bool _IsValidRBTree(pNode pRoot, size_t k, const size_t blackCount)
+	{
+		//走到null之后，判断k和black是否相等
+		if (nullptr == pRoot)
+		{
+			if (k != blackCount)
+			{
+				cout << "违反性质四：每条路径中黑色节点的个数必须相同" << endl;
+				return false;
+			}
+			return true;
+		}
+
+		// 统计黑色节点的个数
+		if (Black == pRoot->_color)
+			k++;
+		// 检测当前节点与其双亲是否都为红色
+		pNode pParent = pRoot->_pParent;
+		if (pParent && Red == pParent->_color && Red == pRoot->_color)
+		{
+			cout << "违反性质三：没有连在一起的红色节点" << endl;
+			return false;
+		}
+		return _IsValidRBTree(pRoot->_pLeft, k, blackCount) &&
+			_IsValidRBTree(pRoot->_pRight, k, blackCount);
+	}
 private:
 	//左旋
 	void RotateL(pNode parent)
@@ -195,9 +265,19 @@ private:
 		}
 		parent->_pParent = subL;
 	}
+
+	void Inoder(pNode root)
+	{
+		if (root) {
+			Inoder(root->_pLeft);
+			cout << root->_kv.first << "-------" << root->_kv.second << endl;
+			Inoder(root->_pRight);
+		}
+	}
 private:
 	pNode _Header;
 };
+
 
 int main()
 {
@@ -206,7 +286,9 @@ int main()
 	tree.insert(pair<int, string>(3, "香蕉"));
 	tree.insert(pair<int, string>(2, "苹果"));
 	tree.insert(pair<int, string>(4, "葡萄"));
-	tree.insert(pair<int, string>(1, "下"));
+	tree.insert(pair<int, string>(1, "西瓜"));
 
+	tree.print(tree);
+	cout << tree.IsValidRBTree() << endl;
 	return 0;
 }
