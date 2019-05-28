@@ -30,7 +30,7 @@ public:
 		:_Header(new Node)
 	{}
 	//插入
-	bool insert(pair<K, V>& kv)
+	bool insert(const pair<K, V>& kv)
 	{
 		if (_Header->_pParent == nullptr)
 		{
@@ -74,7 +74,7 @@ public:
 
 		//调整 插入节点是黑色 双亲为黑色不需要调整
 		//cur为红， p为红， /g为黑
-		while (cur != _Header->_pParent && cur->_pParent->_color = Red)
+		while (cur != _Header->_pParent && cur->_pParent->_color == Red)
 		{
 			parent = cur->_pParent;
 			pNode gparent = parent->_pParent;
@@ -132,6 +132,8 @@ public:
 				}
 			}
 		}
+		_Header->_pParent->_color = Black;
+
 		return true;
 
 	}
@@ -143,12 +145,12 @@ private:
 		pNode subRL = subR->_pLeft;
 
 		subR->_pLeft = parent;
-		parent->_pRight = subRL
+		parent->_pRight = subRL;
 
-		if (subRL)
+		if(subRL != nullptr)
 			subRL->_pParent = parent;
 
-		if (parent != _Header->parent)
+		if (parent != _Header->_pParent)
 		{
 			pNode gparent = parent->_pParent;
 
@@ -170,7 +172,28 @@ private:
 	//右旋
 	void RotateR(pNode parent)
 	{
-		//todo
+		pNode subL = parent->_pLeft;
+		pNode subLR = subL->_pRight;
+
+		subL->_pRight = parent;
+		parent->_pLeft = subLR;
+		if (subLR)
+			subLR->_pParent = parent;
+
+		if (_Header->_pParent != parent)
+		{
+			pNode gparent = parent->_pParent;
+			if (gparent->_pLeft == parent)
+				gparent->_pLeft = subL;
+			else
+				gparent->_pRight = subL;
+			subL->_pParent = gparent;
+		}
+		else {
+			_Header->_pParent = subL;
+			subL->_pParent = _Header;
+		}
+		parent->_pParent = subL;
 	}
 private:
 	pNode _Header;
@@ -178,6 +201,12 @@ private:
 
 int main()
 {
-	RBTreeNode<int, int>* h;
+	RBTree<int, string> tree;
+
+	tree.insert(pair<int, string>(3, "香蕉"));
+	tree.insert(pair<int, string>(2, "苹果"));
+	tree.insert(pair<int, string>(4, "葡萄"));
+	tree.insert(pair<int, string>(1, "下"));
+
 	return 0;
 }
