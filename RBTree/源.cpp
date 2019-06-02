@@ -1,5 +1,5 @@
 #include<iostream>
-
+#include<time.h>
 using namespace std;
 
 enum Color
@@ -150,9 +150,9 @@ public:
 
 	}
 	//´òÓ¡
-	void print(const RBTree<K,V>& tree)
+	void print()
 	{
-		Inoder(tree._Header->_pParent);
+		Inoder(_Header->_pParent);
 	}
 	//ºìºÚÊ÷µÄÑéÖ¤
 	bool IsValidRBTree()
@@ -206,7 +206,8 @@ public:
 		}
 		return _IsValidRBTree(pRoot->_pLeft, k, blackCount) &&
 			_IsValidRBTree(pRoot->_pRight, k, blackCount);
-	}
+	}
+
 private:
 	//×óĞı
 	void RotateL(pNode parent)
@@ -281,14 +282,25 @@ private:
 
 int main()
 {
-	RBTree<int, string> tree;
+	//RBTree<int, string> tree;
 
-	tree.insert(pair<int, string>(3, "Ïã½¶"));
-	tree.insert(pair<int, string>(2, "Æ»¹û"));
-	tree.insert(pair<int, string>(4, "ÆÏÌÑ"));
-	tree.insert(pair<int, string>(1, "Î÷¹Ï"));
+	//tree.insert(pair<int, string>(3, "Ïã½¶"));
+	//tree.insert(pair<int, string>(2, "Æ»¹û"));
+	//tree.insert(pair<int, string>(4, "ÆÏÌÑ"));
+	//tree.insert(pair<int, string>(1, "Î÷¹Ï"));
 
-	tree.print(tree);
-	cout << tree.IsValidRBTree() << endl;
+	//tree.print(tree);
+	RBTree<int, int> rbt;
+	srand(time(nullptr));
+	int n = 0;
+	cin >> n;
+	while (n)
+	{
+		int num = rand()%100;
+		rbt.insert(make_pair(num, n));
+		--n;
+	}
+	rbt.print();
+	cout << rbt.IsValidRBTree() << endl;
 	return 0;
 }
