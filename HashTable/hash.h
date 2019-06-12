@@ -129,7 +129,7 @@ public:
 		pNode cur = _table[index];
 		while (cur)
 		{
-			if(kov(cur->_data) == kov(data)
+			if(kov(cur->_data) == kov(data))
 				return false;
 			cur = cur->_next;
 		}
@@ -140,12 +140,48 @@ public:
 		++_size;
 		return true;
 	}
+	pNode Find(const K& k)
+	{
+		size_t index = k % _table.size();
+		pNode cur = _table[index];
+		KeyOfValue kov;
+		while (cur)
+		{
+			if (kov(cur->_data) == k)
+				return cur;
+			cur = cur->_next;
+		}
+		return nullptr;
+	}
+	bool Erase(const K& k)
+	{
+		size_t index = k % _table.size();
+		pNode cur = _table[index];
+		KeyOfValue kov;
+		pNode prev = nullptr;
+		while (cur)
+		{
+			if (kov(cur->_data) == k) {
+				if (prev) 
+					prev->_next = cur->_next;
+				else 
+					_table[index] = cur->_next;
+				
+				--_size;
+				delete cur;
+				return true;
+			}
+			prev = cur;
+			cur = cur->_next;
+		}
+		return false;
+	}
 private:
 	void CheckCapacity()
 	{
-		if (_size == _table.size())
+		if (_size >= _table.size()*3)
 		{
-			size_t newS = _table.size() == 0 ? 10 : _table.size() * 2;
+			size_t newS = _table.size() == 0 ? 4 : _table.size() * 2;
 			vector<pNode> newV;
 			newV.resize(newS);
 			KeyOfValue kov;
@@ -157,8 +193,8 @@ private:
 				{
 					pNode next = cur->_next;
 					size_t index = kov(cur->_data) % newS;
-					cur->_next = newV[i];
-					newV[i] = cur;
+					cur->_next = newV[index];
+					newV[index] = cur;
 					cur = next;
 				}
 				_table[i] = nullptr;
@@ -168,5 +204,5 @@ private:
 	}
 private:
 	vector<pNode> _table;
-	size_t size = 0;
+	size_t _size = 0;
 };
