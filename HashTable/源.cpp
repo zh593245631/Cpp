@@ -29,7 +29,13 @@ void test1()
 	m.insert(pair<int, int>(4, 4));
 	m.Erase(4);
 	m.insert(pair<int, int>(4, 4));
-	m.Find(2);
+	cout<<(*m.Find(2)).second<<endl;
+	auto vit = m.begin();
+	while (vit != m.end())
+	{
+		cout << (*vit).second << endl;
+		++vit;
+	}
 }
 void test2()
 {
@@ -45,13 +51,19 @@ void test2()
 	s.insert(6);
 	s.insert(9);
 	s.insert(11);
-
-
 	s.Erase(3);
 	s.Find(2);
+
+	auto vit = s.begin();
+	while (vit != s.end())
+	{
+		cout << *vit << endl;
+		++vit;
+	}
 }
 int main()
 {
+	test1();
 	test2();
 	return 0;
 }

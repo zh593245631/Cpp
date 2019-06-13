@@ -113,15 +113,88 @@ struct HashNode
 		,_data(data)
 	{}
 };
+//前置声明
+template <class K, class V, class KeyOfValue>
+class HashTable;
+template<class K, class V,class KeyOfValue>
+struct HIterator
+{
+	typedef HashNode<V> Node;
+	typedef Node* pNode;
+	typedef HIterator<K, V, KeyOfValue> Self;
+	typedef HashTable<K, V, KeyOfValue> HT;
+	
+	pNode _node;
+	HT* _ht;
+	HIterator(pNode node,HT* ht)
+		:_node(node)
+		,_ht(ht)
+	{}
+
+	V& operator*()
+	{
+		return _node->_data;
+	}
+	V* operator->()
+	{
+		return &_node->_data;
+	}
+	bool operator!=(const Self& it)
+	{
+		return _node != it._node;
+	}
+	//前置++
+	Self& operator++()
+	{
+		if (_node->_next) {
+			_node = _node->_next;
+		}
+		else {
+			KeyOfValue kov;
+			size_t index = kov(_node->_data) % (_ht->_table.size());
+			++index;
+			while (index < (_ht->_table.size()))
+			{
+				if (_ht->_table[index]) {
+					_node = _ht->_table[index];
+					break;
+				}
+				++index;
+			}
+			if (index == _ht->_table.size())
+				_node = nullptr;
+
+		}
+		return *this;
+	}
+};
 
 template<class K, class V,class KeyOfValue>
 class HashTable
 {
 public:
+	//泛型友元声明，迭代器需要访问哈希表的私有成员
+	template <class K, class V, class KeyOfValue>
+	friend struct HIterator;
+public:
 	typedef HashNode<V> Node;
 	typedef Node* pNode;
+	typedef HIterator<K, V, KeyOfValue> iterator;
 public:
-	bool insert(const V& data)
+	iterator begin()
+	{
+		for (size_t i = 0; i < _table.size(); ++i)
+		{
+			if (_table[i])
+				return iterator(_table[i],this);
+		}
+		return iterator(nullptr,this);
+	}
+	iterator end()
+	{
+		return iterator(nullptr,this);
+	}
+	pair<iterator,bool> insert(const V& data)
 	{
 		CheckCapacity();
 		KeyOfValue kov;
@@ -130,7 +203,7 @@ public:
 		while (cur)
 		{
 			if(kov(cur->_data) == kov(data))
-				return false;
+				return make_pair(iterator(cur,this),false);
 			cur = cur->_next;
 		}
 		cur = new Node(data);
@@ -138,9 +211,9 @@ public:
 		cur->_next = _table[index];
 		_table[index] = cur;
 		++_size;
-		return true;
+		return make_pair(iterator(cur,this),true);
 	}
-	pNode Find(const K& k)
+	iterator Find(const K& k)
 	{
 		size_t index = k % _table.size();
 		pNode cur = _table[index];
@@ -148,10 +221,10 @@ public:
 		while (cur)
 		{
 			if (kov(cur->_data) == k)
-				return cur;
+				return iterator(cur,this);
 			cur = cur->_next;
 		}
-		return nullptr;
+		return iterator(nullptr,this);
 	}
 	bool Erase(const K& k)
 	{

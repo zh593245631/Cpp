@@ -12,13 +12,23 @@ class UnorderedMap
 		}
 	};
 public:
-	bool insert(const pair<K, V>& data)
+	typedef typename HashTable<K, pair<K, V>, KeyOfValue>::iterator iterator;
+	iterator begin()
+	{
+		return _ht.begin();
+	}
+	iterator end()
+	{
+		return _ht.end();
+	}
+	pair<iterator,bool> insert(const pair<K, V>& data)
 	{
 		return _ht.insert(data);
 	}
-	void Find(const K& k)
+	iterator Find(const K& k)
 	{
-		cout << (_ht.Find(k)->_data).second << endl;
+		//cout << (_ht.Find(k)->_data).second << endl;
+		return _ht.Find(k);
 	}
 	bool Erase(const K& k)
 	{
@@ -39,13 +49,23 @@ class UnorderedSet
 		}
 	};
 public:
-	bool insert(const K& data)
+	typedef typename HashTable<K, K, KeyOfValue>::iterator iterator;
+	iterator begin()
+	{
+		return _ht.begin();
+	}
+	iterator end()
+	{
+		return _ht.end();
+	}
+	pair<iterator,bool> insert(const K& data)
 	{
 		return _ht.insert(data);
 	}
-	void Find(const K& k)
+	iterator Find(const K& k)
 	{
-		cout << _ht.Find(k)->_data << endl;
+		//cout << _ht.Find(k)->_data << endl;
+		return _ht.Find(k);
 	}
 	bool Erase(const K& k)
 	{
