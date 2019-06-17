@@ -36,7 +36,7 @@ using namespace std;
 //	int* tmp = (int*)malloc(sizeof(int) * n);
 //	_MergeSort(a, 0, n - 1, tmp);
 //
-//	// ÕâÀï¼ÙÉè´¦ÀíÁËÒ»Ğ©ÆäËûÂß¼­
+//	// è¿™é‡Œå‡è®¾å¤„ç†äº†ä¸€äº›å…¶ä»–é€»è¾‘
 //	//vector<int> v(1000000000, 10);
 //	// ...
 //
@@ -72,7 +72,7 @@ using namespace std;
 //
 //	return 0;
 //}
-// Ê¹ÓÃRAIIË¼ÏëÉè¼ÆµÄSmartPtrÀà
+// ä½¿ç”¨RAIIæ€æƒ³è®¾è®¡çš„SmartPtrç±»
 //template<class T>
 //class SmartPtr {
 //public:
@@ -90,13 +90,11 @@ using namespace std;
 //void MergeSort(int* a, int n)
 //{
 //	int* tmp = (int*)malloc(sizeof(int) * n);
-//	// ½²tmpÖ¸ÕëÎ¯ÍĞ¸øÁËsp¶ÔÏó£¬ÓÃÊ±ÀÏÊ¦µÄ»°Ëµ¸øtmpÖ¸ÕëÕÒÁËÒ»¸ö¿ÉÅÂµÄÅ®ÅóÓÑ£¡ÌìÌì¹Ü×ÅÄã£¬Ö±µ½Äãgo
-//	//die^^
 //		SmartPtr<int> sp(tmp);
 //	// _MergeSort(a, 0, n - 1, tmp);
 //
 //
-//	// ÕâÀï¼ÙÉè´¦ÀíÁËÒ»Ğ©ÆäËûÂß¼­
+//	// è¿™é‡Œå‡è®¾å¤„ç†äº†ä¸€äº›å…¶ä»–é€»è¾‘
 //	vector<int> v(1000000000, 10);
 //	// ...
 //}
@@ -170,7 +168,7 @@ using namespace std;
 
 //#include <thread>
 //#include <mutex>
-// C++11µÄ¿âÖĞÒ²ÓĞÒ»¸ölock_guard£¬ÏÂÃæµÄLockGuardÔìÂÖ×ÓÆäÊµ¾ÍÊÇÎªÁËÑ§Ï°ËûµÄÔ­Àí
+// C++11çš„åº“ä¸­ä¹Ÿæœ‰ä¸€ä¸ªlock_guardï¼Œä¸‹é¢çš„LockGuardé€ è½®å­å…¶å®å°±æ˜¯ä¸ºäº†å­¦ä¹ ä»–çš„åŸç†
 //template<class Mutex>
 //class LockGuard
 //{
@@ -186,7 +184,7 @@ using namespace std;
 //	}
 //	LockGuard(const LockGuard<Mutex>&) = delete;
 //private:
-//	// ×¢ÒâÕâÀï±ØĞëÊ¹ÓÃÒıÓÃ£¬·ñÔòËøµÄ¾Í²»ÊÇÒ»¸ö»¥³âÁ¿¶ÔÏó
+//	// æ³¨æ„è¿™é‡Œå¿…é¡»ä½¿ç”¨å¼•ç”¨ï¼Œå¦åˆ™é”çš„å°±ä¸æ˜¯ä¸€ä¸ªäº’æ–¥é‡å¯¹è±¡
 //	Mutex& _mutex;
 //	//Mutex& a;
 //};
@@ -216,7 +214,7 @@ using namespace std;
 //}
 //
 //RAll
-//Ê¹ÓÃRALLË¼ÏëÉè¼ÆµÄSmartPtr
+//ä½¿ç”¨RALLæ€æƒ³è®¾è®¡çš„SmartPtr
 //template<class T>
 //class SmartPtr{
 //public:
@@ -299,14 +297,14 @@ using namespace std;
 //{
 //	unique_ptr<int> up(new int);
 //
-//	//·À¿½±´
+//	//é˜²æ‹·è´
 //	//unique_ptr<int> op(up);
 //	//unique_ptr<int> ip = up;
 //
 //	return 0;
 //}
-//Ä£ÄâÊµÏÖ unique_ptr
-// Ä£ÄâÊµÏÖÒ»·İ¼ò´ğµÄUniquePtr,ÁË½âÔ­Àí
+//æ¨¡æ‹Ÿå®ç° unique_ptr
+// æ¨¡æ‹Ÿå®ç°ä¸€ä»½ç®€ç­”çš„UniquePtr,äº†è§£åŸç†
 //template<class T>
 //class UniquePtr
 //{
@@ -356,7 +354,7 @@ using namespace std;
 //	return 0;
 //}
 
-////ÆÕÍ¨°æÄ£ÄâÊµÏÖ
+////æ™®é€šç‰ˆæ¨¡æ‹Ÿå®ç°
 //template<class T>
 //class SharePtr
 //{
@@ -427,7 +425,7 @@ using namespace std;
 //	cout << typeid(count).name() << endl;
 //	return 0;
 //}
-// Ä£ÄâÊµÏÖÒ»·İ¼ò´ğµÄSharedPtr,ÁË½âÔ­Àí
+// æ¨¡æ‹Ÿå®ç°ä¸€ä»½ç®€ç­”çš„SharedPtr,äº†è§£åŸç†
 
 
 //template<class T>
@@ -456,10 +454,10 @@ using namespace std;
 //	{
 //		if (_ptr != sp._ptr)
 //		{
-//			//ÊÍ·Å¹ÜÀíµÄ¾É×ÊÔ´
+//			//é‡Šæ”¾ç®¡ç†çš„æ—§èµ„æº
 //			Release();
 //
-//			//¹²Ïí¹ÜÀíĞÂ×ÊÔ´
+//			//å…±äº«ç®¡ç†æ–°èµ„æº
 //			_ptr = sp._ptr;
 //			_count = sp._count;
 //			_pMutex = sp._pMutex;
@@ -500,7 +498,7 @@ using namespace std;
 //private:
 //	int* _count;
 //	T* _ptr;
-//	mutex* _pMutex; //»¥³âËø
+//	mutex* _pMutex; //äº’æ–¥é”
 //};
 
 //int main()
@@ -542,10 +540,10 @@ using namespace std;
 //	cout << sp.get() << endl;
 //	for (size_t i = 0; i < n; ++i)
 //	{
-//		// ÕâÀïÖÇÄÜÖ¸Õë¿½±´»á++¼ÆÊı£¬ÖÇÄÜÖ¸ÕëÎö¹¹»á--¼ÆÊı£¬ÕâÀïÊÇÏß³Ì°²È«µÄ¡£
+//		// è¿™é‡Œæ™ºèƒ½æŒ‡é’ˆæ‹·è´ä¼š++è®¡æ•°ï¼Œæ™ºèƒ½æŒ‡é’ˆææ„ä¼š--è®¡æ•°ï¼Œè¿™é‡Œæ˜¯çº¿ç¨‹å®‰å…¨çš„ã€‚
 //		SharedPtr<Date> copy(sp);
-//		// ÕâÀïÖÇÄÜÖ¸Õë·ÃÎÊ¹ÜÀíµÄ×ÊÔ´£¬²»ÊÇÏß³Ì°²È«µÄ¡£ËùÒÔÎÒÃÇ¿´¿´ÕâĞ©ÖµÁ½¸öÏß³Ì++ÁË2n´Î£¬µ«ÊÇ×î
-//		//ÖÕ¿´µ½µÄ½á¹û£¬²¢Ò»¶¨ÊÇ¼ÓÁË2n
+//		// è¿™é‡Œæ™ºèƒ½æŒ‡é’ˆè®¿é—®ç®¡ç†çš„èµ„æºï¼Œä¸æ˜¯çº¿ç¨‹å®‰å…¨çš„ã€‚æ‰€ä»¥æˆ‘ä»¬çœ‹çœ‹è¿™äº›å€¼ä¸¤ä¸ªçº¿ç¨‹++äº†2næ¬¡ï¼Œä½†æ˜¯æœ€
+//		//ç»ˆçœ‹åˆ°çš„ç»“æœï¼Œå¹¶ä¸€å®šæ˜¯åŠ äº†2n
 //			copy->_year++;
 //		copy->_month++;
 //		copy->_day++;
@@ -568,7 +566,7 @@ using namespace std;
 //	return 0;
 //}
 //////////////////////////////////////////
-//shared_ptrµÄÑ­»·ÒıÓÃ
+//shared_ptrçš„å¾ªç¯å¼•ç”¨
 //struct ListNode
 //{
 //	int _data;
@@ -603,7 +601,7 @@ using namespace std;
 //	
 //};
 //
-//// ·Âº¯ÊıµÄÉ¾³ıÆ÷
+//// ä»¿å‡½æ•°çš„åˆ é™¤å™¨
 //template<class T>
 //struct FreeFunc {
 //	void operator()(T* ptr)
@@ -619,7 +617,8 @@ using namespace std;
 //		cout << "delete[]" << ptr << endl;
 //		delete[] ptr;
 //	}
-//};//
+//};
+//
 //int main()
 //{
 //	//shared_ptr<ListNode> a(new ListNode);
@@ -639,7 +638,7 @@ using namespace std;
 //}
 #include <thread>
 #include <mutex>
-// C++11µÄ¿âÖĞÒ²ÓĞÒ»¸ölock_guard£¬ÏÂÃæµÄLockGuardÔìÂÖ×ÓÆäÊµ¾ÍÊÇÎªÁËÑ§Ï°ËûµÄÔ­Àí
+// C++11çš„åº“ä¸­ä¹Ÿæœ‰ä¸€ä¸ªlock_guardï¼Œä¸‹é¢çš„LockGuardé€ è½®å­å…¶å®å°±æ˜¯ä¸ºäº†å­¦ä¹ ä»–çš„åŸç†
 template<class Mutex>
 class LockGuard
 {
@@ -656,7 +655,7 @@ public:
 	
 private:
 	LockGuard(const LockGuard<Mutex>&) = delete;
-	// ×¢ÒâÕâÀï±ØĞëÊ¹ÓÃÒıÓÃ£¬·ñÔòËøµÄ¾Í²»ÊÇÒ»¸ö»¥³âÁ¿¶ÔÏó
+	// æ³¨æ„è¿™é‡Œå¿…é¡»ä½¿ç”¨å¼•ç”¨ï¼Œå¦åˆ™é”çš„å°±ä¸æ˜¯ä¸€ä¸ªäº’æ–¥é‡å¯¹è±¡
 	Mutex& _mutex;
 };
 mutex mtx;
@@ -668,7 +667,8 @@ void Func()
 		LockGuard<mutex> lock(mtx);
 		++n;
 	}
-}int main()
+}
+int main()
 {
 	int begin = clock();
 	thread t1(Func);
@@ -680,4 +680,4 @@ void Func()
 	cout << "cost time:" << end - begin << endl;
 
 	return 0;
-}
+}
