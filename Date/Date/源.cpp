@@ -71,9 +71,9 @@ public:
 	Date operator+(int days)
 	{
 		_day += days;
-		while (_day > GetMonthDay(_year, _day))
+		while (_day > GetMonthDay(_year, _month))
 		{
-			_day -= GetMonthDay(_year, _day);
+			_day -= GetMonthDay(_year, _month);
 			_month++;
 			if (_month == 13)
 			{
@@ -182,14 +182,15 @@ private:
 	int _year;
 	int _month;
 	int _day;
-};
+};
+
 int main()
 {
-	Date d(2018, 9, 28);
+	Date d(2018, 9, 1);
 	Date d1(2018, 10, 8);
 	Date d2(d);
-	d = d + 1;
-	d1 = d1 - 9;
+	d = d + 35;
+	d1 = d1 - 10;
 	cout <<(d == d2)<< endl;
 	d.print();
 	d1.print();
