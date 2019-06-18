@@ -30,6 +30,7 @@ void test1()
 	m.Erase(4);
 	m.insert(pair<int, int>(4, 4));
 	cout<<(*m.Find(2)).second<<endl;
+	m[5] = 5;
 	auto vit = m.begin();
 	while (vit != m.end())
 	{

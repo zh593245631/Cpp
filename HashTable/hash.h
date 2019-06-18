@@ -100,7 +100,7 @@ namespace CLOSE
 	};
 }
 
-
+//-----------------------------------------------------------------------------------------
 //开散列
 template<class V>
 struct HashNode
@@ -114,15 +114,15 @@ struct HashNode
 	{}
 };
 //前置声明
-template <class K, class V, class KeyOfValue>
+template <class K, class V, class KeyOfValue, class HashFun>
 class HashTable;
-template<class K, class V,class KeyOfValue>
+template<class K, class V,class KeyOfValue, class HashFun>
 struct HIterator
 {
 	typedef HashNode<V> Node;
 	typedef Node* pNode;
-	typedef HIterator<K, V, KeyOfValue> Self;
-	typedef HashTable<K, V, KeyOfValue> HT;
+	typedef HIterator<K, V, KeyOfValue, HashFun> Self;
+	typedef HashTable<K, V, KeyOfValue, HashFun> HT;
 	
 	pNode _node;
 	HT* _ht;
@@ -151,7 +151,7 @@ struct HIterator
 		}
 		else {
 			KeyOfValue kov;
-			size_t index = kov(_node->_data) % (_ht->_table.size());
+			size_t index = _ht->HashIndex(kov(_node->_data), (_ht->_table.size()));
 			++index;
 			while (index < (_ht->_table.size()))
 			{
@@ -169,17 +169,17 @@ struct HIterator
 	}
 };
 
-template<class K, class V,class KeyOfValue>
+template<class K, class V,class KeyOfValue, class HashFun>
 class HashTable
 {
 public:
 	//泛型友元声明，迭代器需要访问哈希表的私有成员
-	template <class K, class V, class KeyOfValue>
+	template <class K, class V, class KeyOfValue, class HashFun>
 	friend struct HIterator;
 public:
 	typedef HashNode<V> Node;
 	typedef Node* pNode;
-	typedef HIterator<K, V, KeyOfValue> iterator;
+	typedef HIterator<K, V, KeyOfValue, HashFun> iterator;
 public:
 	iterator begin()
 	{
@@ -198,7 +198,7 @@ public:
 	{
 		CheckCapacity();
 		KeyOfValue kov;
-		size_t index = kov(data) % _table.size();
+		size_t index = HashIndex(kov(data), _table.size());
 		pNode cur = _table[index];
 		while (cur)
 		{
@@ -215,7 +215,7 @@ public:
 	}
 	iterator Find(const K& k)
 	{
-		size_t index = k % _table.size();
+		size_t index = HashIndex(k , _table.size());
 		pNode cur = _table[index];
 		KeyOfValue kov;
 		while (cur)
@@ -249,12 +249,14 @@ public:
 		}
 		return false;
 	}
+
 private:
 	void CheckCapacity()
 	{
 		if (_size >= _table.size()*3)
 		{
-			size_t newS = _table.size() == 0 ? 4 : _table.size() * 2;
+			//size_t newS = _table.size() == 0 ? 4 : _table.size() * 2;
+			size_t newS = getNextPrime(_table.size());
 			vector<pNode> newV;
 			newV.resize(newS);
 			KeyOfValue kov;
@@ -265,7 +267,7 @@ private:
 				while (cur)
 				{
 					pNode next = cur->_next;
-					size_t index = kov(cur->_data) % newS;
+					size_t index = HashIndex(kov(cur->_data), newS);
 					cur->_next = newV[index];
 					newV[index] = cur;
 					cur = next;
@@ -274,6 +276,32 @@ private:
 			}
 			_table.swap(newV);
 		}
+	}
+	size_t HashIndex(const K& key, size_t sz)
+	{
+		HashFun hfun;
+		return hfun(key) % sz;
+	}
+	size_t getNextPrime(const size_t prime)
+	{
+		static const int PRIMECOUNT = 28;
+		static const size_t primeList[PRIMECOUNT] =
+		{
+			53ul, 97ul, 193ul, 389ul, 769ul,
+			1543ul, 3079ul, 6151ul, 12289ul, 24593ul,
+			49157ul, 98317ul, 196613ul, 393241ul, 786433ul,
+			1572869ul, 3145739ul, 6291469ul, 12582917ul, 25165843ul,
+			50331653ul, 100663319ul, 201326611ul, 402653189ul, 805306457ul,
+			1610612741ul, 3221225473ul, 4294967291ul
+		};
+
+		for (size_t i = 0; i < PRIMECOUNT; ++i)
+		{
+			if (primeList[i] > prime)
+				return primeList[i];
+		}
+
+		return primeList[PRIMECOUNT - 1];
 	}
 private:
 	vector<pNode> _table;
