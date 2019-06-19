@@ -111,7 +111,7 @@ public:
 		while (min < max)
 		{
 			min++;
-			max--;
+			//max--;
 			count++;
 		}
 		return count;
@@ -187,13 +187,13 @@ private:
 int main()
 {
 	Date d(2018, 9, 1);
-	Date d1(2018, 10, 8);
+	Date d1(2018, 9, 8);
 	Date d2(d);
-	d = d + 35;
-	d1 = d1 - 10;
-	cout <<(d == d2)<< endl;
-	d.print();
-	d1.print();
+	//d = d + 35;
+	//d1 = d1 - 10;
+	//cout <<(d == d2)<< endl;
+	//d.print();
+	//d1.print();
 	//d++;
 	//d1++;
 	cout << (d1 - d) << endl;
