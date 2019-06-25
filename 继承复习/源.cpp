@@ -36,7 +36,7 @@ using namespace std;
 //	A a = b;
 //	A* pa = &b;
 //	A& rb = b;
-//	//B c = a;
+//	//B c = (B)a;
 //	B* c = (B*)&a;
 //	B& cc = (B&)a;
 //	return 0;
@@ -111,18 +111,52 @@ using namespace std;
 //	return 0;
 //}
 
-//实现一个不能被继承的类
-//c++98
-class NoInherit
+////实现一个不能被继承的类
+////c++98
+//class NoInherit
+//{
+//public:
+//	static NoInherit GetInstance()
+//	{
+//		return NoInherit();
+//	}
+//private:
+//	NoInherit(){}
+//};
+////c++11
+//class A final
+//{};
+//棱形继承
+class A
 {
 public:
-	static NoInherit GetInstance()
-	{
-		return NoInherit();
-	}
-private:
-	NoInherit(){}
+	int a;
 };
-//c++11
-class A final
-{};
+class B:virtual public A
+{
+public:
+	int b;
+};
+class C :virtual public A
+{
+public:
+	int c;
+};
+class D :public B, public C
+{
+public:
+	int d;
+};
+
+int main()
+{
+	D d;
+	//d.A::a = 0;
+	d.B::a = 1;
+	d.C::a = 2;
+	d.b = 3;
+	d.c = 4;
+	d.d = 5;
+
+	return 0;
+}

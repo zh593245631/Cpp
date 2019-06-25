@@ -172,7 +172,7 @@ public:
 	}
 	bool operator!=(const Date& d)const
 	{
-		return *this == d;
+		return !(*this == d);
 	}
 	void print()
 	{
