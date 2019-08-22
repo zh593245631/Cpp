@@ -3,7 +3,7 @@
 #include<stdlib.h>
 #include<time.h>
 using namespace std;
-#define MAXI 10
+#define MAXI 7
 typedef int KeyType;
 typedef int ElemType;
 struct rec {
@@ -59,10 +59,18 @@ void main()
 {
 	cout << "kuaisu1.cpp运行结果:\n";
 	sqlist a1;
-	int i, n = MAXI, low = 0, high = 9;
+	int i, n = MAXI, low = 0, high = 6;
 	srand(time(0));
-	for (i = 0; i < n; i++)
-		a1[i].key = rand() % 80;
+	//for (i = 0; i < n; i++)
+	//	a1[i].key = rand() % 80;
+	a1[0].key = 30;
+	a1[1].key = 15;
+	a1[2].key = 40;
+	a1[3].key = 28;
+	a1[4].key = 50;
+	a1[5].key = 10;
+	a1[6].key = 70;
+
 	kuaisu px(a1, n);
 	cout << "数组排序过程演示:\n";
 	px.quicksort(low, high);

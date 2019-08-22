@@ -138,6 +138,7 @@ public:
 			if (next->_pLeft == nullptr)
 				parent->_pRight = nullptr;
 			parent->_pRight = next->_pLeft;
+
 			delete next;
 			next= nullptr;
 		}
